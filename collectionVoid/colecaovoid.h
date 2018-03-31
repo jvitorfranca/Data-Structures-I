@@ -21,5 +21,11 @@ typedef struct _colecao_{
 
   #else
 
+    extern Colecao *colCreate(int max);
+    extern int colDestroy(Colecao *c);
+    extern int colInsert(Colecao *c, void* item);
+    extern void *colRemoveLast(Colecao *c);
+    extern void *colQuery(Colecao *c, void *key, int(*cmp)(void*, void*));
+
   #endif
 #endif
