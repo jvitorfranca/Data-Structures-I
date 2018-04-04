@@ -1,6 +1,5 @@
 #include<stdio.h>
 #include<stdlib.h>
-#include "colecao.c"
 #include "colecao.h"
 
 int main(int argc, char const *argv[]) {
@@ -8,23 +7,33 @@ int main(int argc, char const *argv[]) {
   int i;
   int elm;
   int stat = 0;
+  int opcao = 0;
 
   c = colCreate(30);
   if (c != NULL){
-    printf("informe 5 digitos: \n");
-    for (i = 0;i < 5;i++){
-      scanf("%d",&elm);
-      colInsert(c, elm);
-    }
-    while (stat != -1){
-      printf("Informe o numero a ser removido, por obséquio: \n");
-      scanf("%d",&elm);
-      stat = colQuery(c, elm);
-      if (stat != -1){
-        stat = colRemove(c, elm);
+    do{
+      printf("\nPRESSIONE 1 PARA INSERIR UM INT NA COLECAO \nPRESSIONE 2 PARA REMOVER UM INT \nPRESSIONE 3 PARA DESTRUIR A COLECAO\n");
+      scanf("%d", &opcao);
+
+      switch (opcao) {
+        case 1:
+            printf("Informe o inteiro que deseja incluir: \n");
+            scanf("%d", &elm);
+            colInsert(c, elm);
+
+            break;
+        case 2:
+            printf("Informe o número a ser removido: \n");
+            scanf("%d", &elm);
+            stat = colQuery(c, elm);
+            if (stat != -1){
+              stat = colRemove(c, elm);
+            }
+
+            break;
       }
-    }
-    printf("destruindo coleção \n");
+    }while(opcao != 3);
+
     colDestroy(c);
   }
 

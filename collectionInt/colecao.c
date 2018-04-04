@@ -12,8 +12,8 @@ Colecao *colCreate(int n){
     if (c != NULL){
       c->elm = (int*)malloc(sizeof(int)*n);
       if (c->elm != NULL){
-        c->max = n;
-        c->nelm = 0;
+        c->max = n; //número máximo de elementos na coleção
+        c->nelm = 0; //número de elementos presentes na coleção
         printf("coleção alocada\n");
         return c;
       }
@@ -24,7 +24,7 @@ Colecao *colCreate(int n){
 
 int colDestroy(Colecao *c){
   if (c != NULL){
-    if (c->nelm == 0){
+    if (c->nelm == 0){ //destrói coleção vazia
       if (c->elm != NULL){
         free(c->elm);
       }
