@@ -18,29 +18,40 @@ int main(int argc, char const *argv[]) {
   Colecao *c;
   long int cpf;
   int i = 0;
+  int opcao;
 
   c = colCreate(30);
   if (c != NULL){
-    printf("informe o nome, cpf e idade de alunos\n");
-    for (i = 0;i < 3;i++){
-      a = (Aluno*)malloc(sizeof(Aluno));
-      if (a != NULL){
-        scanf("%s%ld%d", a->nome, &(a->cpf), &(a->idade));
-        colInsert(c, (void*)a);
-      }
-    }
-    i = 0;
-    printf("informe o cpf de dois deles para ser buscado\n");
     do{
-      scanf("%ld", &cpf);
-      a = colQuery(c, (void*)cpf, cmpCpfAluno);
-      if (a != NULL){
-        printf("%s\n%ld\n%d\n", a->nome, a->cpf, a->idade);
-      } else {
-        printf("não achei\n");
+      printf("\nPRESSIONE 1 PARA INSERIR UM ALUNO \nPRESSIONE 2 PARA BUSCAR ALUNO PELO CPF \nPRESSIONE 3 PARA REMOVER O ULTIMO ALUNO \nPRESSIONE 4 PARA SAIR \n");
+      scanf("%d", &opcao);
+      switch (opcao){
+        case 1:
+          printf("Informe o nome, o cpf e a idade do aluno: \n");
+          a = (Aluno*)malloc(sizeof(Aluno));
+          if (a != NULL){
+            scanf("%s%ld%d", a->nome, &(a->cpf), &(a->idade));
+            colInsert(c, (void*)a);
+          }
+
+          break;
+        case 2:
+          printf("Informe o cpf de quem deseja buscar: \n");
+          scanf("%ld", &cpf);
+          a = colQuery(c, (void*)cpf, cmpCpfAluno);
+          if (a != NULL){
+            printf("%s\n%ld\n%d\n", a->nome, a->cpf, a->idade);
+          } else {
+            printf("cpf não encontrado");
+          }
+
+          break;
+        case 3:
+          colRemoveLast(c);
+
+          break;
       }
-      i++;
-    }while(i < 2);
+    }while (opcao != 4);
   }
   colDestroy(c);
 
@@ -74,5 +85,3 @@ int cmpNomeAluno(void *a, void *b){
     return FALSE;
   }
 }
-
-
