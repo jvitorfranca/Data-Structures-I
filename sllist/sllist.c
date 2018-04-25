@@ -4,45 +4,85 @@
 #include<stdlib.h>
 
 SLList *sllCreate(){
-  SLList *l;
-  l = (SLList*)malloc(sizeof(SLList));
-  if (l != NULL){
-    l->first = NULL;
-    return l;
+  SLList *list;
+  list = (SLList*)malloc(sizeof(SLList));
+  if (list != NULL){
+    list->first = NULL;
+    return list;
   }
   return NULL;
 }
 
-int sllDestroy(SLList *l){
-  if (l->first == NULL){
-    free(l);
+int sllDestroy(SLList *list){
+  if (list->first == NULL){
+    free(list);
     return TRUE;
   }
   return FALSE;
 }
 
-int sllInsertFirst(SLList *l, void *data){
+int sllInsertFirst(SLList *list, void *data){
   SLNode *newnode;
   if (l != NULL){
     newnode = (SLNode*)malloc(sizeof(SLNode));
     if (newnode != NULL){
       newnode->data = data;
-      newnode->next = l->first;
-      l->first = newnode;
+      newnode->next = list->first;
+      list->first = newnode;
       return TRUE;
     }
   }
   return FALSE;
 }
 
-void *sllRemoveFirst(SLList *l){
+int sllInsertLast(SLList *list, void *data){
+  SLNode *newnode;
+  SLNode *last;
+  if (list != NULL){
+    newnode = (SLNode*)malloc(sizeof(SLNode));
+    if (newnode != NULL){
+      newnode->next = NULL;
+      newnode->data = data;
+      if (l->first != NULL){
+        last = list->first;
+        while (last->next != NULL){
+          last =  last->next;
+        }
+        last->next = newnode;
+      } else {
+        list->first = newnode;
+      }
+      return TRUE;
+    }
+  }
+  return FALSE;
+}
+
+int sllNumNodes(SLList *list){
+  SLNode *aux;
+  unsigned int lenght;
+  lenght = 0;
+  if (list != NULL){
+    if (list->first != NULL){
+      aux = list->first;
+      while (aux->next != NULL){
+        lenght++;
+        aux = aux->next;
+      }
+      return lenght;
+    }
+  }
+  return NULL;
+}
+
+void *sllRemoveFirst(SLList *list){
   SLNode *aux;
   void *data;
-  if (l != NULL){
-    if (l->first != NULL){
-      aux = l->first;
+  if (list != NULL){
+    if (list->first != NULL){
+      aux = lit->first;
       data = aux->data;
-      l->first = aux->next;
+      list->first = aux->next;
       free(aux);
       return data;
     }
