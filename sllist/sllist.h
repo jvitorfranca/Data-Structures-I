@@ -11,6 +11,7 @@ typedef struct _slnode_{
 
 typedef struct _sll_{
   SLNode *first;
+  SLNode *current;
 }SLList;
 
   #ifndef sllist_c_
