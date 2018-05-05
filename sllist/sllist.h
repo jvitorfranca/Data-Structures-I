@@ -20,8 +20,17 @@ typedef struct _sll_{
     int sllDestroy(SLList *l);
     int sllInsertFirst(SLList *l, void *data);
     int sllInsertLast(SLList *list, void *data)
-    void *sllRemoveFirst(SLList *l);
     int sllNumNodes(SLList *list);
+    int sllInsertBeforeSpecified(SLList *list, void *key, int(*cmp)(void*, void*), void *data);
+    int sllInsertAfterSpecified(SLList *list, void *key, int(*cmp)(void*, void*), void *data);
+    int sllNumOcc(SLList *list, void *key, int(*cmp)(void*, void*));
+    int sllRemoveSpecifiedNext(SLList *list, void *key, int(*cmp)(void*, void*));
+    int sllRemoveSpecifiedPrevious(SLList *list, void *key, int(*cmp)(void*, void*));
+    void *sllRemoveFirst(SLList *l);
+    void* sllFirst(SLList*list);
+    void *sllRemoveSpecified(SLList *list, void *key, int(*cmp)(void*, void*));
+    void *sllQuery(SLList *list, void *key, int(*cmp)(void*, void*));
+    void *sllRemoveNth(SLList *list, int n);
 
   #else
 
@@ -29,8 +38,17 @@ typedef struct _sll_{
     extern int sllDestroy(SLList *l);
     extern int sllInsertFirst(SLList *l, void *data);
     extern int sllInsertLast(SLList *list, void *data);
-    extern void *sllRemoveFirst(SLList *l);
     extern int sllNumNodes(SLList *list);
+    extern int sllInsertBeforeSpecified(SLList *list, void *key, int(*cmp)(void*, void*), void *data);
+    extern int sllInsertAfterSpecified(SLList *list, void *key, int(*cmp)(void*, void*), void *data);
+    extern int sllNumOcc(SLList *list, void *key, int(*cmp)(void*, void*));
+    extern int sllRemoveSpecifiedNext(SLList *list, void *key, int(*cmp)(void*, void*));
+    extern int sllRemoveSpecifiedPrevious(SLList *list, void *key, int(*cmp)(void*, void*));
+    extern void *sllRemoveFirst(SLList *l);
+    extern void* sllFirst(SLList*list);
+    extern void *sllRemoveSpecified(SLList *list, void *key, int(*cmp)(void*, void*));
+    extern void *sllQuery(SLList *list, void *key, int(*cmp)(void*, void*));
+    extern void *sllRemoveNth(SLList *list, int n);
 
   #endif
 #endif

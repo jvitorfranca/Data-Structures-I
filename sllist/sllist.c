@@ -200,4 +200,123 @@ void *sllQuery(SLList *list, void *key, int(*cmp)(void*, void*)){
   return NULL;
 }
 
+int sllNumOcc(SLList *list, void *key, int(*cmp)(void*, void*)){
+  SLNode *current;
+  unsigned int n;
+  if (list != NULL){
+    if (list->first != NULL){
+      current = list->first;
+      while (current != NULL){
+        if (cmp(current->data, key) == TRUE){
+          n++;
+        }
+        current = current->next;
+      }
+      return n;
+    }
+  }
+  return -1;
+}
+
+void *sllRemoveNth(SLList *list, int n){
+  SLNode *current;
+  SLNode *previous;
+  void *data;
+  if (list != NULL){
+    if (list->first != NULL){
+      current = list->first;
+      previous = NULL;
+      while (n > 0 && current != NULL){
+        previous = current;
+        current = current->next;
+        n--;
+      }
+      if (current != NULL){
+        data = current->data;
+        if (previous != NULL){
+          previous->next = current->next;
+        } else {
+          list->first = current->next;
+        }
+        free(current);
+        return data;
+      }
+    }
+  }
+  return NULL;
+}
+
+int sllRemoveSpecifiedNext(SLList *list, void *key, int(*cmp)(void*, void*)){
+  SLNode *current;
+  SLNode *previous;
+  SLNode *next;
+
+  if (list != NULL){
+    if (list->first != NULL){
+      previous = NULL;
+      current = list->first;
+      while (cmp(current->data, key) != TRUE && current->next != NULL){
+        previous = current;
+        current = current->next;
+      }
+      if (cmp(current->data, key) == TRUE){
+        if (previous != NULL){
+          if (current->next != NULL){
+            previous->next = current->next->next;
+            free(current->next);
+          } else {
+            previous->next != NULL;
+          }
+          free(current);
+        } else {
+          if (current->next != NULL){
+            list->first = current->next->next;
+            free(current->next);
+          } else {
+            list->first = NULL;
+          }
+          free(current);
+        }
+        return TRUE;
+      }
+    }
+  }
+  return FALSE;
+}
+
+int sllRemoveSpecifiedPrevious(SLList *list, void *key, int(*cmp)(void*, void*)){
+  SLNode *current;
+  SLNode *previous;
+  SLNode *next;
+  SLNode *p_previous;
+
+  if (list != NULL){
+    if (list->first != NULL){
+      p_previous = NULL;
+      previous = NULL;
+      current = list->first;
+
+      while (cmp(current->data, key) != TRUE && current->next != NULL){
+        p_previous = previous;
+        previous = current;
+        current = current->next;
+      }
+      if (cmp(current->data, key) == TRUE){
+        if (p_previous != NULL){
+          p_previous->next = current->next;
+        } else {
+          list->first = current->next;
+        }
+        if (previous != NULL){
+          free(p_previous);
+          free(current);
+          return TRUE;
+        }
+        return TRUE;
+      }
+    }
+  }
+  return FALSE;
+}
+
 #endif
