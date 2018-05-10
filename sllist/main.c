@@ -1,6 +1,6 @@
 /*
 
-  singly-linked list algorithm implement to Data Structures I class
+  singly-linked list algorithm implement to Data Structures I class, implemented with a structure "students"
 
   compiled in a linux terminal with gcc main.c sllist.c -o main && ./main
 
