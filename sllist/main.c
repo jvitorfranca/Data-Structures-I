@@ -273,39 +273,39 @@ int main(int argc, char const *argv[]) {
 
   }
 
-  // unsigned int entry1 = 10;
-  // unsigned int entry2 = 7;
-  // unsigned int lenght = 0;
-  //
-  // void* first_removed = NULL;
-  // void* nth_removed = NULL;
-  //
-  // list = sllCreate();
-  //
-  // if (list != NULL){
-  //
-  //   sllInsertFirst(list, (void*)&entry1);
-  //   sllInsertLast(list, (void*)&entry2);
-  //
-  //   lenght = sllNumNodes(list);
-  //
-  //   printf("%d\n", lenght);
-  //
-  //   first_removed = sllRemoveFirst(list);
-  //
-  //   if (first_removed != NULL){
-  //     printf("%s\n", "first removed");
-  //   }
-  //
-  //   nth_removed = sllRemoveNth(list, 0);
-  //
-  //   if (nth_removed != NULL){
-  //     printf("%s\n", "nth removed");
-  //   }
-  //
-  // }
-  //
-  // sllDestroy(list);
+  unsigned int entry1 = 10;
+  unsigned int entry2 = 7;
+  unsigned int lenght = 0;
+
+  void* first_removed = NULL;
+  void* nth_removed = NULL;
+
+  list = sllCreate();
+
+  if (list != NULL){
+
+    sllInsertFirst(list, (void*)&entry1);
+    sllInsertLast(list, (void*)&entry2);
+
+    lenght = sllNumNodes(list);
+
+    printf("%d\n", lenght);
+
+    first_removed = sllRemoveFirst(list);
+
+    if (first_removed != NULL){
+      printf("%s\n", "first removed");
+    }
+
+    nth_removed = sllRemoveNth(list, 0);
+
+    if (nth_removed != NULL){
+      printf("%s\n", "nth removed");
+    }
+
+  }
+
+  sllDestroy(list);
 
   return 0;
 }
