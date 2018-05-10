@@ -14,7 +14,7 @@ SLList *sllCreate(){
 
     list->first = NULL;
     list->current = NULL;
-    printf("%s","list created succesfully\n");
+    //printf("%s","list created succesfully\n");
     return list;
 
   }
@@ -44,7 +44,7 @@ int sllDestroy(SLList *list){
 
   if (list->first == NULL){
 
-    printf("%s", "list destroyed succesfully\n");
+    // printf("%s", "list destroyed succesfully\n");
     free(list);
     return TRUE;
 
@@ -364,7 +364,7 @@ int sllNumOcc(SLList *list, void *key, int(*cmp)(void*, void*)){
 
       while (current != NULL){
 
-        if (cmp(current->data, key) == TRUE){
+        if (cmp(key, current->data) == TRUE){
           n++;
         }
 
@@ -436,14 +436,14 @@ int sllRemoveSpecifiedNext(SLList *list, void *key, int(*cmp)(void*, void*)){
       previous = NULL;
       current = list->first;
 
-      while (cmp(current->data, key) != TRUE && current->next != NULL){
+      while (cmp(key, current->data) != TRUE && current->next != NULL){
 
         previous = current;
         current = current->next;
 
       }
 
-      if (cmp(current->data, key) == TRUE){
+      if (cmp(key, current->data) == TRUE){
 
         if (previous != NULL){
 
@@ -499,7 +499,7 @@ int sllRemoveSpecifiedPrevious(SLList *list, void *key, int(*cmp)(void*, void*))
       previous = NULL;
       current = list->first;
 
-      while (cmp(current->data, key) != TRUE && current->next != NULL){
+      while (cmp(key, current->data) != TRUE && current->next != NULL){
 
         p_previous = previous;
         previous = current;
@@ -507,7 +507,7 @@ int sllRemoveSpecifiedPrevious(SLList *list, void *key, int(*cmp)(void*, void*))
 
       }
 
-      if (cmp(current->data, key) == TRUE){
+      if (cmp(key, current->data) == TRUE){
 
         if (p_previous != NULL){
 
