@@ -111,8 +111,13 @@ int main(int argc, char const *argv[]) {
 
   Student *new_student;
 
+  void* data_removed = NULL;
+  void* data_query = NULL;
+
+  char name[20];
+
   int option = 0;
-  int status;
+  int status = 0;
 
   while (option != 17){
 
@@ -242,31 +247,233 @@ int main(int argc, char const *argv[]) {
 
         break;
 
-      // case 5:
-      //
-      // case 6:
-      //
-      // case 7:
-      //
-      // case 8:
-      //
-      // case 9:
-      //
-      // case 10:
-      //
-      // case 11:
-      //
-      // case 12:
-      //
-      // case 13:
-      //
-      // case 14:
-      //
-      // case 15:
-      //
-      // case 16:
-      //
-      // default:
+      case 5:
+
+        if (list != NULL){
+
+          new_student = setStudent();
+
+          printf("Inform the name: \n");
+
+          scanf("%s", name);
+
+          if (new_student != NULL){
+
+            status = sllInsertBeforeSpecified(list, (void*)name, (*cmpStudentName), (void*)new_student);
+
+            if (status){
+
+              printf("element inserted \n");
+
+            } else {
+
+              printf("element not inserted \n");
+
+            }
+
+          }
+
+        } else {
+
+          printf("There is no list \n");
+
+        }
+
+        break;
+
+      case 6:
+
+        if (list != NULL){
+
+          new_student = setStudent();
+
+          printf("Inform the name: \n");
+
+          scanf("%s", name);
+
+          if (new_student != NULL){
+
+            status = sllInsertAfterSpecified(list, (void*)name, (*cmpStudentName), (void*)new_student);
+
+            if (status){
+
+              printf("element inserted \n");
+
+            } else {
+
+              printf("element not inserted \n");
+
+            }
+
+          }
+
+        } else {
+
+          printf("There is no list \n");
+
+        }
+
+        break;
+
+      case 7:
+
+        new_student = (Student *) sllGetFirst(list);
+
+        if (new_student != NULL){
+
+          getStudent(new_student);
+
+        }
+
+        break;
+
+      case 8:
+
+        new_student = (Student *) sllNext(list);
+
+        if (new_student != NULL){
+
+          getStudent(new_student);
+
+        }
+
+        break;
+
+      case 9:
+
+        status = sllNumNodes(list);
+
+        printf("%d\n", status);
+
+        break;
+
+      case 10:
+
+        data_removed = sllRemoveFirst(list);
+
+        if (data_removed != NULL){
+
+          printf("element removed \n");
+
+        } else {
+
+          printf("something's wrong \n");
+
+        }
+
+        break;
+
+      case 11:
+
+        data_removed = NULL;
+
+        printf("inform the name of the student you're trying to remove \n");
+        scanf("%s", name);
+
+        data_removed = sllRemoveSpecified(list, (void*)name, cmpStudentName);
+
+        if (data_removed != NULL){
+
+          printf("element removed \n");
+
+        } else {
+
+          printf("something's wrong \n");
+
+        }
+
+        break;
+
+      case 12:
+
+        data_removed = NULL;
+
+        printf("inform the position you want to delete \n");
+        scanf("%d", &status);
+
+        data_removed = sllRemoveNth(list, status);
+
+        if (data_removed != NULL){
+
+          printf("element removed \n");
+
+        } else {
+
+          printf("something's wrong \n");
+
+        }
+
+        break;
+
+      case 13:
+
+        printf("inform the name: \n");
+        scanf("%s", name);
+
+        status = sllRemoveSpecifiedNext(list, (void*)name, cmpStudentName);
+
+        if (status){
+
+          printf("removed \n");
+
+        } else {
+
+          printf("not removed \n");
+
+        }
+
+        break;
+
+      case 14:
+
+        printf("inform the name: \n");
+        scanf("%s", name);
+
+        status = sllRemoveSpecifiedPrevious(list, (void*)name, cmpStudentName);
+
+        if (status){
+
+          printf("removed \n");
+
+        } else {
+
+          printf("not removed \n");
+
+        }
+
+        break;
+
+      case 15:
+
+        printf("inform who you're looking for \n");
+        scanf("%s", name);
+
+        data_query = sllQuery(list, (void*)name, cmpStudentName);
+
+        if (data_query != NULL){
+
+          printf("found \n");
+
+        } else {
+
+          printf("not found \n");
+
+        }
+
+        break;
+
+      case 16:
+
+        printf("inform the name: \n");
+        scanf("%s", name);
+
+        status = 0;
+
+        status = sllNumOcc(list, (void*)name, cmpStudentName);
+
+        printf("%d\n", status);
+
+        break;
 
     }
 

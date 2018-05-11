@@ -67,7 +67,7 @@ int sllInsertFirst(SLList *list, void *data){
       newnode->next = list->first;
       list->first = newnode;
 
-      printf("%s", "element pushed succesfully\n");
+      // printf("%s", "element pushed succesfully\n");
 
       return TRUE;
 
@@ -108,7 +108,7 @@ int sllInsertLast(SLList *list, void *data){
 
       }
 
-      printf("%s", "element pushed succesfully\n");
+      //printf("%s", "element pushed succesfully\n");
 
       return TRUE;
 
@@ -123,7 +123,7 @@ int sllNumNodes(SLList *list){
 
   SLNode *aux;
 
-  unsigned int lenght;
+  unsigned int lenght = 0;
 
   if (list != NULL){
 
@@ -354,7 +354,7 @@ int sllNumOcc(SLList *list, void *key, int(*cmp)(void*, void*)){
 
   SLNode *current;
 
-  unsigned int n;
+  unsigned int n = 0;
 
   if (list != NULL){
 
@@ -454,7 +454,7 @@ int sllRemoveSpecifiedNext(SLList *list, void *key, int(*cmp)(void*, void*)){
 
           } else {
 
-            previous->next != NULL;
+            previous->next = NULL;
 
           }
 

@@ -42,6 +42,8 @@ typedef struct _sll_{
 
     int sllRemoveSpecifiedPrevious(SLList *list, void *key, int(*cmp)(void*, void*));
 
+    void *sllNext(SLList *list);
+
     void *sllRemoveFirst(SLList *l);
 
     void* sllGetFirst(SLList*list);
@@ -75,6 +77,8 @@ typedef struct _sll_{
     extern int sllRemoveSpecifiedNext(SLList *list, void *key, int(*cmp)(void*, void*));
 
     extern int sllRemoveSpecifiedPrevious(SLList *list, void *key, int(*cmp)(void*, void*));
+
+    extern void *sllNext(SLList *list);
 
     extern void *sllRemoveFirst(SLList *l);
 
