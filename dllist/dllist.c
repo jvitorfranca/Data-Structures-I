@@ -211,4 +211,243 @@ void *dllRemoveSpecified(DLList *list, void *key, int(*cmp)(void*, void*)){
   return NULL;
 }
 
+void *dllGetFirst(DLList *list){
+
+  if (list != NULL){
+
+    if (list->first != NULL){
+
+      list->current = list->first;
+
+      return list->current->data;
+
+    }
+
+  }
+
+  return NULL;
+}
+
+void *dllGetNext(DLList *list){
+
+  if (list != NULL){
+
+    if (list->current != NULL){
+
+      list->current = list->current->next;
+
+      return list->current->data;
+
+    }
+
+  }
+
+  return NULL;
+}
+
+DLNode* dllGetSpecNode(SLList *list, void *key, int(*cmp)(void*, void*)){
+
+  DLNode *current;
+
+  if (list != NULL){
+
+    if (list->first != NULL){
+
+      current = list->first;
+
+      while (cmp(current->data, key) != TRUE && current->next != NULL){
+
+        current = current->next;
+
+      }
+
+      if (cmp(current->data, key) == TRUE){
+
+        return current;
+
+      }
+
+    }
+
+  }
+
+  return NULL;
+}
+
+int dllRemoveSpecifiedAndNext(DLList *list, void *key, int(*cmp)(void*, void*)){
+
+  DLNode *specified;
+  DLNode *next;
+  DLNode *after_next = NULL;
+
+  if (list != NULL){
+
+    specified = dllGetSpecNode(list, key, cmp);
+
+    if (specified != NULL){
+
+      previous = specified->previous;
+
+      next = specified->next;
+
+      if (next != NULL){
+
+        after_next = next->next;
+
+        free(next);
+
+      }
+
+      if (previous != NULL){
+
+        previous->next = after_next;
+
+      } else {
+
+        list->first = after_next;
+
+      }
+
+      if (after_next != NULL){
+
+        after_next->previous = previous;
+
+      }
+
+      free(spec);
+
+      return TRUE;
+    }
+
+  }
+
+  return FALSE;
+}
+
+int dllRemoveSpecifiedAndPrevious(DLList *list, void *key, int(*cmp)(void*, void*)){
+
+  DLNode *specified;
+  DLNode *before_previous;
+  DLNode *previous = NULL;
+
+  if (list != NULL){
+
+    if (list->first != NULL){
+
+      specified = dllGetSpecNode(list, key, cmp);
+
+      if (specified != NULL){
+
+        previous = specified->previous;
+
+        if (previous != NULL){
+
+          before_previous = previous->previous;
+
+          free(previous);
+
+        }
+
+        next = specified->next;
+
+        if (next != NULL){
+
+          next->previous = before_previous;
+
+        }
+
+        if (before_previous != NULL){
+
+          before_previous->next = next;
+
+        } else {
+
+          list->first = next;
+
+        }
+
+        free(specified);
+
+        return TRUE;
+      }
+
+    }
+
+  }
+
+  return FALSE;
+}
+
+int dllRemoveOdd(DLList *list, int(*myfree)(void*)){
+
+  DLNode *current;
+  DLNode *next;
+  DLNode *previous = NULL;
+
+  if (list != NULL){
+
+    if (list->first != NULL){
+
+      current = list->first;
+
+      myfree(current->data);
+
+      while (current != NULL){
+
+        if (current == list->first){
+
+          list->first = current->next;
+
+          if (list->first != NULL){
+
+            list->first->previous = NULL;
+
+            next = current;
+
+            current = current->next->next;
+
+            free(next);
+
+          } else {
+
+            free(current);
+
+          }
+
+        } else {
+
+          previous->next = current->next;
+
+          if (current->next != NULL){
+
+            current->next->previous = previous;
+
+          }
+
+          previous = current->next;
+
+          free(current);
+
+          if (previous != NULL){
+
+            current = previous->next;
+
+          } else {
+
+            current = NULL;
+
+          }
+
+        }
+
+      }
+
+      return TRUE;
+    }
+
+  }
+
+  return FALSE;
+}
+
 #endif
