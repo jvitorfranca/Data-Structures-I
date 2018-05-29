@@ -3,23 +3,7 @@
 
 #include<stdlib.h>
 #include<stdio.h>
-
-#define TRUE 1
-#define FALSE 0
-
-typedef struct _dlnode_{
-
-  struct _dlnode_ *next;
-  struct _dlnode_ *previous;
-  void *data;
-
-}DLNode;
-
-typedef struct _dllist_{
-
-  DLNode *first;
-
-}DLList;
+#include "dllist.h"
 
 DLList *dllCreate(){
 
@@ -56,7 +40,49 @@ int dllDestroy(DLList *list){
   return FALSE;
 }
 
-int sllInsertAfterSpecified(DLList *list, void *data, int(*cmp)(void*, void*), void*key){
+int dllInsertLast(DLList *list, void *data){
+
+  DLNode *newnode;
+  DLNode *last;
+
+  if (list != NULL){
+
+    newnode = (DLNode*)malloc(sizeof(DLNode));
+
+    if (newnode != NULL){
+
+      newnode->next = NULL;
+      newnode->data = data;
+
+      if (list->first != NULL){
+
+        last = list->first;
+
+        while (last->next != NULL){
+          last =  last->next;
+        }
+
+        last->next = newnode;
+        newnode->previous = last;
+
+      } else {
+
+        list->first = newnode;
+
+      }
+
+      //printf("%s", "element pushed succesfully\n");
+
+      return TRUE;
+
+    }
+  }
+
+  return FALSE;
+
+}
+
+int dllInsertAfterSpecified(DLList *list, void *data, int(*cmp)(void*, void*), void*key){
 
   DLNode *specified;
   DLNode *newnode;
@@ -199,7 +225,7 @@ void *dllRemoveSpecified(DLList *list, void *key, int(*cmp)(void*, void*)){
 
         }
 
-        free(spec);
+        free(specified);
 
         return data;
       }
@@ -213,30 +239,15 @@ void *dllRemoveSpecified(DLList *list, void *key, int(*cmp)(void*, void*)){
 
 void *dllGetFirst(DLList *list){
 
+  DLNode *current;
+
   if (list != NULL){
 
     if (list->first != NULL){
 
-      list->current = list->first;
+      current = list->first;
 
-      return list->current->data;
-
-    }
-
-  }
-
-  return NULL;
-}
-
-void *dllGetNext(DLList *list){
-
-  if (list != NULL){
-
-    if (list->current != NULL){
-
-      list->current = list->current->next;
-
-      return list->current->data;
+      return current->data;
 
     }
 
@@ -245,7 +256,7 @@ void *dllGetNext(DLList *list){
   return NULL;
 }
 
-DLNode* dllGetSpecNode(SLList *list, void *key, int(*cmp)(void*, void*)){
+DLNode* dllGetSpecNode(DLList *list, void *key, int(*cmp)(void*, void*)){
 
   DLNode *current;
 
@@ -277,6 +288,7 @@ DLNode* dllGetSpecNode(SLList *list, void *key, int(*cmp)(void*, void*)){
 int dllRemoveSpecifiedAndNext(DLList *list, void *key, int(*cmp)(void*, void*)){
 
   DLNode *specified;
+  DLNode *previous;
   DLNode *next;
   DLNode *after_next = NULL;
 
@@ -314,7 +326,7 @@ int dllRemoveSpecifiedAndNext(DLList *list, void *key, int(*cmp)(void*, void*)){
 
       }
 
-      free(spec);
+      free(specified);
 
       return TRUE;
     }
@@ -327,6 +339,7 @@ int dllRemoveSpecifiedAndNext(DLList *list, void *key, int(*cmp)(void*, void*)){
 int dllRemoveSpecifiedAndPrevious(DLList *list, void *key, int(*cmp)(void*, void*)){
 
   DLNode *specified;
+  DLNode *next;
   DLNode *before_previous;
   DLNode *previous = NULL;
 
