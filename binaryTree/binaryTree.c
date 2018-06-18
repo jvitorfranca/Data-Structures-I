@@ -18,12 +18,11 @@
 
 */
 
-
 #include<stdio.h>
 #include<stdlib.h>
 
 #define TRUE 1
-#define FALSE 2
+#define FALSE 0
 
 typedef struct _treenode_{
 
@@ -57,13 +56,13 @@ int binaryTreeDestroy(Node *root){
 
     free(root);
 
-    printf("%s\n", "Tree destroyed successfully");
+    //printf("%s\n", "Tree destroyed successfully");
 
     return TRUE;
 
   } else {
 
-    printf("%s\n", "Please, remove all the elements");
+    //printf("%s\n", "Please, remove all the elements");
 
     return FALSE;
 
@@ -132,65 +131,91 @@ void *binaryTreeQuery(Node* root, void* key, int(*cmp)(void*, void*)){
 
 }
 
-void *binaryTreeRemove(Node *root, void *key, int(*cmp)(void*, void*), void **data){
+// void *binaryTreeRemove(Node *root, void *key, int(*cmp)(void*, void*), void **data){
+//
+//   Node *aux;
+//
+//   void *data2;
+//
+//   if (root != NULL){
+//
+//     if (cmp(key, root->data) == -1){
+//
+//       root->left = binaryTreeRemove(root->left, key, cmp);
+//
+//       return root;
+//
+//     } else if (cmp(key, root->data) == 1){
+//
+//       root->right = binaryTreeRemove(root->right, key, cmp);
+//
+//       return root;
+//
+//     } else {
+//
+//       *data = root->data;
+//
+//       if (root->left == NULL && root->right == NULL){
+//
+//         free(root);
+//
+//         return NULL;
+//
+//       } else if (root->left != NULL && root->right == NULL){
+//
+//         aux = root->left;
+//
+//         free(root);
+//
+//         return aux;
+//
+//       } else if (root->left == NULL && root->right != NULL){
+//
+//         aux = root->right;
+//
+//         free(root);
+//
+//         return aux;
+//
+//       } else {
+//
+//         root->data = binaryTreeMaior(root->left);
+//
+//         binaryTreeRemove(root->left, root->data, cmp, &data2);
+//
+//         return t;
+//
+//       }
+//
+//     }
+//
+//   }
+//
+//   return NULL;
+// }
 
-  Node *aux;
+int cmp(void *key, void* data){
 
-  void *data;
+  int *a;
+  int *b;
 
-  if (root != NULL){
+  a = (int*)key;
+  b = (int*)data;
 
-    if (cmp(key, root->data) == -1){
+  if (b < a){
 
-      root->left = binaryTreeRemove(root->left, key, cmp);
+    return -1;
 
-      return root;
+  } else if(b > a){
 
-    } else if (cmp(key, root->data) == 1){
+    return 1;
 
-      root->right = binaryTreeRemove(root->right, key, cmp);
+  } else {
 
-    } else {
-
-      *data = root->data;
-
-      if (root->left == NULL && root->right == NULL){
-
-        free(root);
-
-        return NULL;
-
-      } else if (root->left != NULL && root->right == NULL){
-
-        aux = root->left;
-
-        free(root);
-
-        return aux;
-
-      } else if (root->left == NULL && root->right != NULL){
-
-        aux = root->right;
-
-        free(root);
-
-        return aux;
-
-      } else {
-
-        root->data = binaryTreeMaior(root->left);
-
-        binaryTreeRemove(root->left, root->data, cmp, &data);
-
-        return t;
-
-      }
-
-    }
+    return 0;
 
   }
 
-  return NULL;
 }
 
 void treePreOrdem(Node *root, int(*visit)(void*)){
@@ -227,4 +252,109 @@ void treeSimetria(Node *root, int(*visit)(void*)){
 
   }
 
+}
+
+int main(int argc, char const *argv[]) {
+
+  int menuOption;
+  int data;
+
+  void* query = NULL;
+
+  Node *root;
+  Node *aux = NULL;
+
+  do{
+
+    printf("%s\n", "=========================");
+    printf("%s\n", " 1. Create a Binary Tree ");
+    printf("%s\n", " 2. Insert a element     ");
+    printf("%s\n", " 3. Query a element      ");
+    printf("%s\n", " 4. Remove a element     ");
+    printf("%s\n", " 5. Destroy              ");
+    printf("%s\n", " 6. Exit                 ");
+    printf("%s\n", "=========================");
+
+    printf("%s\n", "Please, select a option: ");
+    scanf("%d", &menuOption);
+
+    switch (menuOption) {
+
+      case 1:
+
+        root = binaryTreeCreate();
+
+        if (root != NULL){
+
+          printf("%s\n", "Created successfully");
+
+        } else {
+
+          printf("%s\n", "Something went wrong");
+
+        }
+
+        break;
+      case 2:
+
+        printf("%s\n", "Insert the integer you want to add");
+
+        scanf("%d", &data);
+
+        aux = binaryTreeInsert(root, (void*)&data, root->data, cmp);
+
+        if (aux != NULL){
+
+          printf("%s\n", "Element inserted");
+
+        } else {
+
+          printf("%s\n", "Something went wrong");
+
+        }
+
+        break;
+      case 3:
+
+        printf("%s\n", "Insert the integer you want to query: ");
+
+        scanf("%d", &data);
+
+        query = binaryTreeQuery(root, (void*)&data, cmp);
+
+        if (cmp(query, (void*)&data) == 0){
+
+          printf("%s\n", "Found");
+
+        } else {
+
+          printf("%s\n", "Not found");
+
+        }
+
+        break;
+      case 4:
+
+        break;
+      case 5:
+
+        if (binaryTreeDestroy(root) == TRUE){
+
+          printf("%s\n", "The tree was destroyed");
+
+        } else {
+
+          printf("%s\n", "Something went wrong");
+
+        }
+
+        break;
+      default:
+
+        break;
+    }
+
+  }while(menuOption != 6);
+
+  return 0;
 }
