@@ -56,13 +56,9 @@ int binaryTreeDestroy(Node *root){
 
     free(root);
 
-    //printf("%s\n", "Tree destroyed successfully");
-
     return TRUE;
 
   } else {
-
-    //printf("%s\n", "Please, remove all the elements");
 
     return FALSE;
 
@@ -254,6 +250,20 @@ void treeSimetria(Node *root, int(*visit)(void*)){
 
 }
 
+void visit(void* data){
+
+  int aux;
+
+  if (data != NULL){
+
+    aux = (int)data;
+
+    printf("%d\n", aux);
+
+  }
+
+}
+
 int main(int argc, char const *argv[]) {
 
   int menuOption;
@@ -262,7 +272,6 @@ int main(int argc, char const *argv[]) {
   void* query = NULL;
 
   Node *root;
-  Node *aux = NULL;
 
   do{
 
@@ -301,9 +310,9 @@ int main(int argc, char const *argv[]) {
 
         scanf("%d", &data);
 
-        aux = binaryTreeInsert(root, (void*)&data, root->data, cmp);
+        root = binaryTreeInsert(root, (void*)data, (void*)data, cmp);
 
-        if (aux != NULL){
+        if (root != NULL){
 
           printf("%s\n", "Element inserted");
 
@@ -320,9 +329,9 @@ int main(int argc, char const *argv[]) {
 
         scanf("%d", &data);
 
-        query = binaryTreeQuery(root, (void*)&data, cmp);
+        query = binaryTreeQuery(root, (void*)data, cmp);
 
-        if (cmp(query, (void*)&data) == 0){
+        if (cmp(query, (void*)data) == 0){
 
           printf("%s\n", "Found");
 
@@ -349,12 +358,14 @@ int main(int argc, char const *argv[]) {
         }
 
         break;
-      default:
+      case 6:
+
+        treeSimetria(root, visit);
 
         break;
     }
 
-  }while(menuOption != 6);
+  }while(menuOption != 7);
 
   return 0;
 }
