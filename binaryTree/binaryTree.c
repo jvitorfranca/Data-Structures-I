@@ -32,7 +32,7 @@ typedef struct _treenode_{
 
 }Node;
 
-Node* binaryTreeCreate(){
+Node* BSTreeCreate(){
 
   Node *root;
 
@@ -50,7 +50,7 @@ Node* binaryTreeCreate(){
   return NULL;
 }
 
-int binaryTreeDestroy(Node *root){
+int BSTreeDestroy(Node *root){
 
   if (root->left == NULL && root->right == NULL){
 
@@ -66,7 +66,7 @@ int binaryTreeDestroy(Node *root){
 
 }
 
-Node *binaryTreeInsert(Node *root, void *data, void* key, int(*cmp)(void*, void*)){
+Node *BSTreeInsert(Node *root, void *data, void* key, int(*cmp)(void*, void*)){
 
   Node *newnode;
 
@@ -74,11 +74,11 @@ Node *binaryTreeInsert(Node *root, void *data, void* key, int(*cmp)(void*, void*
 
     if (cmp(key, root->data) <= 0){
 
-      root->left = binaryTreeInsert(root->left, data, key, cmp);
+      root->left = BSTreeInsert(root->left, data, key, cmp);
 
     } else {
 
-      root->right = binaryTreeInsert(root->right, data, key, cmp);
+      root->right = BSTreeInsert(root->right, data, key, cmp);
 
     }
 
@@ -103,7 +103,7 @@ Node *binaryTreeInsert(Node *root, void *data, void* key, int(*cmp)(void*, void*
 
 }
 
-void *binaryTreeQuery(Node* root, void* key, int(*cmp)(void*, void*)){
+void *BSTreeQuery(Node* root, void* key, int(*cmp)(void*, void*)){
 
   if (root != NULL){
 
@@ -113,11 +113,11 @@ void *binaryTreeQuery(Node* root, void* key, int(*cmp)(void*, void*)){
 
     } else if (cmp(key, root->data) < 0){
 
-      return binaryTreeQuery(root->left, key, cmp);
+      return BSTreeQuery(root->left, key, cmp);
 
     } else {
 
-      return binaryTreeQuery(root->right, key, cmp);
+      return BSTreeQuery(root->right, key, cmp);
 
     }
 
@@ -127,68 +127,88 @@ void *binaryTreeQuery(Node* root, void* key, int(*cmp)(void*, void*)){
 
 }
 
-// void *binaryTreeRemove(Node *root, void *key, int(*cmp)(void*, void*), void **data){
-//
-//   Node *aux;
-//
-//   void *data2;
-//
-//   if (root != NULL){
-//
-//     if (cmp(key, root->data) == -1){
-//
-//       root->left = binaryTreeRemove(root->left, key, cmp);
-//
-//       return root;
-//
-//     } else if (cmp(key, root->data) == 1){
-//
-//       root->right = binaryTreeRemove(root->right, key, cmp);
-//
-//       return root;
-//
-//     } else {
-//
-//       *data = root->data;
-//
-//       if (root->left == NULL && root->right == NULL){
-//
-//         free(root);
-//
-//         return NULL;
-//
-//       } else if (root->left != NULL && root->right == NULL){
-//
-//         aux = root->left;
-//
-//         free(root);
-//
-//         return aux;
-//
-//       } else if (root->left == NULL && root->right != NULL){
-//
-//         aux = root->right;
-//
-//         free(root);
-//
-//         return aux;
-//
-//       } else {
-//
-//         root->data = binaryTreeMaior(root->left);
-//
-//         binaryTreeRemove(root->left, root->data, cmp, &data2);
-//
-//         return t;
-//
-//       }
-//
-//     }
-//
-//   }
-//
-//   return NULL;
-// }
+void *BSTreeBigger(Node *root){
+
+  void *data;
+
+  if (root != NULL){
+
+    while (root->right != NULL){
+
+      data = root->data;
+
+      root = root->right;
+
+    }
+
+    return data;
+  }
+
+  return NULL;
+}
+
+Node *BSTreeRemove(Node *root, void *key, int(*cmp)(void*, void*)){
+
+  Node *aux;
+
+  void *data;
+
+  if (root != NULL){
+
+    if (cmp(key, root->data) == -1){
+
+      root->left = BSTreeRemove(root->left, key, cmp);
+
+      return root;
+
+    } else if (cmp(key, root->data) == 1){
+
+      root->right = BSTreeRemove(root->right, key, cmp);
+
+      return root;
+
+    } else {
+
+      data = root->data;
+
+      if (root->left == NULL && root->right == NULL){
+
+        free(root);
+
+        return NULL;
+
+      } else if (root->left != NULL && root->right == NULL){
+
+        aux = root->left;
+
+        free(root);
+
+        return aux;
+
+      } else if (root->left == NULL && root->right != NULL){
+
+        aux = root->right;
+
+        free(root);
+
+        return aux;
+
+      } else {
+
+        root->data = BSTreeBigger(root->left);
+
+        BSTreeRemove(root->left, root->data, cmp);
+
+        return root;
+
+      }
+
+    }
+
+  }
+
+  return NULL;
+}
 
 int cmp(void *key, void* data){
 
@@ -270,6 +290,7 @@ int main(int argc, char const *argv[]) {
   int data;
 
   void* query = NULL;
+  void* aux = NULL;
 
   Node *root;
 
@@ -291,7 +312,7 @@ int main(int argc, char const *argv[]) {
 
       case 1:
 
-        root = binaryTreeCreate();
+        root = BSTreeCreate();
 
         if (root != NULL){
 
@@ -310,7 +331,7 @@ int main(int argc, char const *argv[]) {
 
         scanf("%d", &data);
 
-        root = binaryTreeInsert(root, (void*)data, (void*)data, cmp);
+        root = BSTreeInsert(root, (void*)data, (void*)data, cmp);
 
         if (root != NULL){
 
@@ -329,7 +350,7 @@ int main(int argc, char const *argv[]) {
 
         scanf("%d", &data);
 
-        query = binaryTreeQuery(root, (void*)data, cmp);
+        query = BSTreeQuery(root, (void*)data, cmp);
 
         if (cmp(query, (void*)data) == 0){
 
@@ -344,10 +365,16 @@ int main(int argc, char const *argv[]) {
         break;
       case 4:
 
+        printf("%s\n", "Insert the integer you want to delete: ");
+
+        scanf("%d", &data);
+
+        root = BSTreeRemove(root, (void*)data, cmp);
+
         break;
       case 5:
 
-        if (binaryTreeDestroy(root) == TRUE){
+        if (BSTreeDestroy(root) == TRUE){
 
           printf("%s\n", "The tree was destroyed");
 
@@ -358,14 +385,12 @@ int main(int argc, char const *argv[]) {
         }
 
         break;
-      case 6:
-
-        treeSimetria(root, visit);
+      default:
 
         break;
     }
 
-  }while(menuOption != 7);
+  }while(menuOption != 6);
 
   return 0;
 }
